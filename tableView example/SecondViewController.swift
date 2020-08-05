@@ -7,8 +7,11 @@
 //
 
 import UIKit;
+import AVKit
+import AVFoundation
 
 class SecondViewController: UIViewController {
+    @IBOutlet var introView: UIView!
     @IBOutlet var displayDataLabel: UILabel!
     
     var recievingString = ""
@@ -35,11 +38,33 @@ class SecondViewController: UIViewController {
         }.resume()
         return results
     }
+    func playVid() {
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let data = requestData()
-        print(data?.results[0] ?? "no data")
+//        let data = requestData()
+//        print(data?.results[0] ?? "no data")
         displayDataLabel.text = recievingString
+        
+    //here's the intro portion
+        
+        guard let url = URL(string: "https://r3---sn-vgqsrn7s.googlevideo.com/videoplayback?expire=1596675861&ei=tAIrX9TXOJfYhgbG46ygCQ&ip=23.236.219.63&id=o-AKjlJCuMKWgMgF3aBOon99XXW_O_Lk7ff10B6rkLqGrJ&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&gir=yes&clen=2132035&ratebypass=yes&dur=31.045&lmt=1496585479931585&fvip=3&fexp=23883098&c=WEB&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRQIhAL0t4HzP6blkRXbYN9lP5izGzfcOvoRoEIZxB_ETEiw_AiAz1SHkFUAd9-2xBL0aToGU9Bv6UjqbyWEzOd-7cxnUaw%3D%3D&redirect_counter=1&rm=sn-ab5e7s7s&req_id=6dfe3233d54da3ee&cms_redirect=yes&ipbypass=yes&mh=Cn&mip=2601:240:10e:4c82:55cd:14a8:c2a4:377&mm=31&mn=sn-vgqsrn7s&ms=au&mt=1596654231&mv=m&mvi=3&pl=26&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pl&lsig=AG3C_xAwRQIgB-IqJw6GiMmy8lSSUuLDcW_kq82Rjk0EHtskbBf2XsMCIQDokbJYW7jgBFGqJt4MgPkXxE9iSO65uk_Ibg5cCYM2DQ%3D%3D") else {
+            return
+        }
+        let player = AVPlayer(url: url)
+
+        // Create a new AVPlayerViewController and pass it a reference to the player.
+        let controller = AVPlayerViewController()
+        controller.player = player
+        
+        let playerLayer = AVPlayerLayer(player: player)
+        
+        playerLayer.frame = introView.frame
+        introView.layer.addSublayer(playerLayer)
+        
+        // Modally present the player and call the player's play() method when complete.
+          player.play()
     }
     
 
